@@ -59,5 +59,36 @@
     },
     "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger/m-pv4ger_t04/model.pt",
     "updated": "2026-10-31T16:43:31.899130+00:00"
+  },
+  "m-so2sat": {
+    "trial_id": "m-so2sat_t04",
+    "val_score": 0.5933062880324543,
+    "metric": "best_val_acc",
+    "config": {
+      "backbone": "convnext_tiny",
+      "epochs": 15,
+      "img_size": 64,
+      "lr": 5e-05,
+      "weight_decay": 0.05,
+      "time_budget_min": 10.0
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-so2sat/m-so2sat_t04/model.pt",
+    "updated": "2026-10-31T18:46:27.491979+00:00"
+  },
+  "m-NeonTree": {
+    "trial_id": "m-NeonTree_t06",
+    "val_score": 0.6448312767025625,
+    "metric": "best_val_miou",
+    "config": {
+      "arch": "Unet",
+      "dice_weight": 1,
+      "encoder": "resnet50",
+      "epochs": 60,
+      "img_size": 384,
+      "patience": 15,
+      "time_budget_min": 10.0
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-NeonTree/m-NeonTree_t06/model.pt",
+    "updated": "2026-10-31T19:28:52.233107+00:00"
   }
 }

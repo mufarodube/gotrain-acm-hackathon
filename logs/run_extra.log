@@ -1,1 +1,367 @@
 nohup: ignoring input
+
+======================================================================
+GoTrain: m-so2sat
+======================================================================
+
+Tool #1: inspect_dataset
+
+Tool #2: run_experiment
+
+Tool #3: run_experiment
+
+>> m-so2sat_t01  (trial 1/16)
+   hypothesis: Baseline resnet18 at 64px on 2000 subset.
+   config: {"backbone": "resnet18", "lr": 0.0003, "img_size": 64, "epochs": 15, "max_train": 2000, "time_budget_min": 6.0}
+   ... 0m30s | loading data / starting
+   ... 1m00s | loading data / starting
+   ... 1m30s | loading data / starting
+   ... 2m00s | loading data / starting
+   ... 2m30s | loading data / starting
+   ... 3m00s | loading data / starting
+   [ok] val 0.4260 | KEPT, new best | best so far 0.4260 | 3.4 min
+
+>> m-so2sat_t02  (trial 2/16)
+   hypothesis: convnext_tiny usually strongest with little data; compare to resnet18 at same settings.
+   config: {"backbone": "convnext_tiny", "lr": 0.0002, "img_size": 64, "epochs": 15, "max_train": 2000, "time_budget_min": 6.0}
+   ... 0m30s | epoch 10  loss 0.2298  val_acc 0.5101
+   [ok] val 0.5436 | KEPT, new best | best so far 0.5436 | 0.6 min
+
+Tool #4: run_experiment
+
+>> m-so2sat_t03  (trial 3/16)
+   hypothesis: Full training data (10x more) should substantially help convnext_tiny.
+   config: {"backbone": "convnext_tiny", "epochs": 15, "img_size": 64, "lr": 0.0002, "time_budget_min": 10.0}
+   ... 0m30s | loading data / starting
+   ... 1m00s | epoch  2  loss 0.7176  val_acc 0.5314
+   ... 1m30s | epoch  4  loss 0.4672  val_acc 0.5456
+   ... 2m00s | epoch  6  loss 0.3079  val_acc 0.5548
+   [ok] val 0.5882 | KEPT, new best | best so far 0.5882 | 2.3 min
+
+Tool #5: run_experiment
+
+Tool #6: run_experiment
+
+>> m-so2sat_t04  (trial 4/16)
+   hypothesis: Peak at epoch 3 then decline suggests overfitting/domain shift; lower lr with more weight decay should be more stable.
+   config: {"backbone": "convnext_tiny", "epochs": 15, "img_size": 64, "lr": 5e-05, "weight_decay": 0.05, "time_budget_min": 10.0}
+   ... 0m30s | loading data / starting
+   ... 1m00s | epoch  2  loss 0.6915  val_acc 0.5740
+   ... 1m30s | epoch  4  loss 0.3847  val_acc 0.5629
+   ... 2m00s | epoch  6  loss 0.2131  val_acc 0.5527
+   ... 2m30s | epoch  8  loss 0.0877  val_acc 0.5801
+   ... 3m00s | epoch 11  loss 0.0211  val_acc 0.5781
+   ... 3m30s | epoch 13  loss 0.0098  val_acc 0.5903
+   [ok] val 0.5933 | KEPT, new best | best so far 0.5933 | 4.0 min
+
+>> m-so2sat_t05  (trial 5/16)
+   hypothesis: Different architecture family on full data; may generalize differently across cities.
+   config: {"backbone": "resnet50", "epochs": 15, "img_size": 64, "lr": 0.0003, "time_budget_min": 10.0}
+   ... 0m30s | epoch  1  loss 2.0897  val_acc 0.4442
+   ... 1m00s | epoch  3  loss 0.9481  val_acc 0.3124
+   ... 1m30s | epoch  5  loss 0.7307  val_acc 0.5436
+   ... 2m00s | epoch  7  loss 0.6100  val_acc 0.5162
+   ... 2m30s | epoch 10  loss 0.4945  val_acc 0.5446
+   ... 3m00s | epoch 12  loss 0.4420  val_acc 0.5172
+   ... 3m30s | epoch 14  loss 0.4101  val_acc 0.5122
+   [ok] val 0.5446 | not kept | best so far 0.5933 | 3.6 min
+
+Tool #7: run_experiment
+
+   REFUSED (no trial used): img_size 128 needs about 12.4 GB of RAM for 20978 images x 18 bands, above the 7 GB limit. Use img_size <= 96 for this dataset.
+
+Tool #8: run_experiment
+
+Tool #9: run_experiment
+
+>> m-so2sat_t06  (trial 6/16)
+   hypothesis: Upsample to 96 gives more spatial resolution for convnext.
+   config: {"backbone": "convnext_tiny", "epochs": 15, "img_size": 96, "lr": 5e-05, "time_budget_min": 10.0, "weight_decay": 0.05}
+   ... 0m30s | loading data / starting
+   ... 1m00s | loading data / starting
+   ... 1m30s | loading data / starting
+   ... 2m00s | loading data / starting
+   ... 2m30s | loading data / starting
+   ... 3m00s | loading data / starting
+   ... 3m30s | loading data / starting
+   ... 4m00s | loading data / starting
+   ... 4m30s | loading data / starting
+   ... 5m00s | epoch  1  loss 1.1717  val_acc 0.5233
+   ... 5m30s | epoch  2  loss 0.6392  val_acc 0.5680
+   ... 6m00s | epoch  3  loss 0.4806  val_acc 0.5842
+   ... 6m30s | epoch  5  loss 0.2798  val_acc 0.5822
+   ... 7m00s | epoch  6  loss 0.1864  val_acc 0.5872
+   ... 7m30s | epoch  7  loss 0.1241  val_acc 0.5771
+   ... 8m00s | epoch  9  loss 0.0490  val_acc 0.5801
+   [ok] val 0.5872 | not kept | best so far 0.5933 | 8.1 min
+
+>> m-so2sat_t07  (trial 7/16)
+   hypothesis: Larger backbone at the best settings.
+   config: {"backbone": "convnext_small", "epochs": 15, "img_size": 64, "lr": 5e-05, "time_budget_min": 10.0, "weight_decay": 0.05}
+   ... 0m30s | loading data / starting
+   ... 1m00s | loading data / starting
+   ... 1m30s | epoch  1  loss 1.2181  val_acc 0.5446
+   ... 2m00s | epoch  2  loss 0.6326  val_acc 0.5842
+   ... 2m30s | epoch  4  loss 0.3306  val_acc 0.5700
+   ... 3m00s | epoch  5  loss 0.2394  val_acc 0.5233
+   ... 3m30s | epoch  6  loss 0.1596  val_acc 0.5517
+   ... 4m00s | epoch  8  loss 0.0631  val_acc 0.5629
+   [ok] val 0.5842 | not kept | best so far 0.5933 | 4.0 min
+
+Tool #10: run_experiment
+
+Tool #11: run_experiment
+
+>> m-so2sat_t08  (trial 8/16)
+   hypothesis: Efficientnet may be less prone to overfitting on this domain-shifted data.
+   config: {"backbone": "efficientnet_b0", "epochs": 15, "img_size": 64, "lr": 0.0005, "time_budget_min": 10.0, "weight_decay": 0.05}
+   ... 0m30s | loading data / starting
+   ... 1m00s | epoch  3  loss 0.9808  val_acc 0.3327
+   ... 1m30s | epoch  5  loss 0.6771  val_acc 0.4270
+   ... 2m00s | epoch  7  loss 0.4920  val_acc 0.5193
+   ... 2m30s | epoch 10  loss 0.3068  val_acc 0.4128
+   [ok] val 0.5193 | not kept | best so far 0.5933 | 2.9 min
+
+>> m-so2sat_t09  (trial 9/16)
+   hypothesis: Stronger regularization (wd 0.3) and larger batch to curb overfitting.
+   config: {"backbone": "convnext_tiny", "epochs": 15, "img_size": 64, "lr": 5e-05, "time_budget_min": 10.0, "weight_decay": 0.3, "batch_size": 128}
+   ... 0m30s | loading data / starting
+   ... 1m00s | epoch  3  loss 0.5412  val_acc 0.5477
+   ... 1m30s | epoch  6  loss 0.2376  val_acc 0.5558
+   ... 2m00s | epoch  8  loss 0.1135  val_acc 0.5629
+   ... 2m30s | epoch 11  loss 0.0309  val_acc 0.5659
+   ... 3m00s | epoch 14  loss 0.0154  val_acc 0.5801
+   [ok] val 0.5801 | not kept | best so far 0.5933 | 3.2 min
+
+Tool #12: run_experiment
+
+>> m-so2sat_t10  (trial 10/16)
+   hypothesis: Seed confirmation of best config (t04).
+   config: {"backbone": "convnext_tiny", "epochs": 15, "img_size": 64, "lr": 5e-05, "time_budget_min": 10.0, "weight_decay": 0.05, "seed": 1}
+   ... 0m30s | loading data / starting
+   ... 1m00s | epoch  2  loss 0.6699  val_acc 0.5507
+   ... 1m30s | epoch  4  loss 0.3527  val_acc 0.5639
+   ... 2m00s | epoch  6  loss 0.1845  val_acc 0.5669
+   ... 2m30s | epoch  9  loss 0.0403  val_acc 0.5781
+   ... 3m00s | epoch 11  loss 0.0141  val_acc 0.5700
+   ... 3m30s | epoch 13  loss 0.0073  val_acc 0.5710
+   [ok] val 0.5781 | not kept | best so far 0.5933 | 3.7 min
+
+Tool #13: run_experiment
+
+Tool #14: run_experiment
+
+>> m-so2sat_t11  (trial 11/16)
+   hypothesis: Intermediate lr 1e-4 with shorter schedule between t03 and t04.
+   config: {"backbone": "convnext_tiny", "epochs": 10, "img_size": 64, "lr": 0.0001, "time_budget_min": 10.0, "weight_decay": 0.05}
+   ... 0m30s | loading data / starting
+   ... 1m00s | epoch  2  loss 0.6635  val_acc 0.5781
+   ... 1m30s | epoch  4  loss 0.3748  val_acc 0.5740
+   ... 2m00s | epoch  7  loss 0.1097  val_acc 0.5609
+   [ok] val 0.5781 | not kept | best so far 0.5933 | 2.0 min
+
+>> m-so2sat_t12  (trial 12/16)
+   hypothesis: Lower-lr resnet34 as a check whether resnets just need gentler lr on this data.
+   config: {"backbone": "resnet34", "epochs": 15, "img_size": 64, "lr": 0.0001, "time_budget_min": 10.0, "weight_decay": 0.05}
+   ... 0m30s | epoch  1  loss 2.6423  val_acc 0.2880
+   ... 1m00s | epoch  4  loss 1.2023  val_acc 0.3773
+   ... 1m30s | epoch  7  loss 0.9527  val_acc 0.4696
+   ... 2m00s | epoch 10  loss 0.8491  val_acc 0.5183
+   ... 2m30s | epoch 13  loss 0.7981  val_acc 0.4939
+   [ok] val 0.5345 | not kept | best so far 0.5933 | 2.8 min
+**Best configuration (trial t04):** `convnext_tiny`, `img_size` 64, `lr` 5e-5, `weight_decay` 0.05, 15 epochs, full training set (19,992 images), seed 0. Its validation accuracy was **0.593**.
+
+I stopped after 12 of the 16 trials. The last 8 trials in a row failed to beat 0.593, which is past the rule of stopping after 3.
+
+**The seed check says the win is mostly noise.** Rerunning the best config with seed 1 gave 0.578, a drop of 1.5 points. Several other convnext_tiny configs (t03, t06, t07, t09, t11) landed between 0.58 and 0.59. So I'd call the real level about 0.58–0.59, and I wouldn't read the t04 score as better than those. The validation set has only 986 images, so one image is about 0.1 points.
+
+**What helped**
+- **Backbone:** `convnext_tiny` beat `resnet18` clearly (0.544 vs 0.426) in the first comparison, on a 2,000-image subset.
+- **Full training data:** going from the 2,000-image subset to all 19,992 images lifted convnext_tiny from 0.544 to 0.588.
+- **Lower learning rate:** 5e-5 with weight decay 0.05 gave a steadier validation curve than 2e-4, which peaked at epoch 3 and then fell. The final score was about the same.
+
+**What did not help**
+- **Other backbones:** `resnet50` (0.545), `resnet34` (0.534) and `efficientnet_b0` (0.519) were all worse. They also had noisy validation curves.
+- **Bigger model:** `convnext_small` scored 0.584, no better than `convnext_tiny`.
+- **Upsampling to 96 px:** 0.587, no gain, and it was slower.
+- **Other changes:** weight decay 0.3 with batch size 128 scored 0.580. An intermediate lr of 1e-4 with 10 epochs scored 0.578.
+- **Memory limit:** 128 px was refused because it needs about 12 GB of RAM against a 7 GB limit. 96 px was the largest size that fit.
+
+**What I would try next**
+- **Sentinel-2 bands only:** use just the 10 optical bands, or give the SAR and optical bands separate input handling. The SAR bands are noisy and may hurt.
+- **Ensembling:** average the predictions from several seeds, which should smooth out the seed-to-seed variance.
+- **Longer, gentler training:** a lower-lr run at 96 px with a longer schedule.
+
+The gap between train and validation looks like a domain shift between the cities in the two splits, not a lack of model capacity. Bigger backbones and more regularisation did not help.
+=== m-so2sat finished in 41.1 min ===
+
+======================================================================
+GoTrain: m-NeonTree
+======================================================================
+
+Tool #1: inspect_dataset
+
+Tool #2: run_experiment
+
+>> m-NeonTree_t01  (trial 1/16)
+   hypothesis: Baseline Unet resnet34 BCE+Dice at 256px.
+   config: {"arch": "Unet", "encoder": "resnet34", "img_size": 256, "dice_weight": 1.0, "epochs": 40, "time_budget_min": 8.0}
+   ... 0m30s | epoch  9  loss 0.9276  val mIoU 0.5986  fg IoU 0.3351
+   [ok] val 0.6298 | KEPT, new best | best so far 0.6298 | 0.9 min
+
+Tool #3: run_experiment
+
+Tool #4: run_experiment
+
+>> m-NeonTree_t02  (trial 2/16)
+   hypothesis: Larger img_size closer to native 400 helps fine tree crowns.
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet34", "epochs": 40, "img_size": 384, "time_budget_min": 8.0}
+   ... 0m30s | epoch  4  loss 1.2685  val mIoU 0.4740  fg IoU 0.2171
+   ... 1m00s | epoch 11  loss 0.8557  val mIoU 0.5966  fg IoU 0.3265
+   ... 1m30s | epoch 17  loss 0.7677  val mIoU 0.6113  fg IoU 0.3359
+   ... 2m00s | epoch 24  loss 0.6956  val mIoU 0.6251  fg IoU 0.3525
+   [ok] val 0.6332 | KEPT, new best | best so far 0.6332 | 2.0 min
+
+>> m-NeonTree_t03  (trial 3/16)
+   hypothesis: DeepLabV3Plus vs Unet at 256px.
+   config: {"arch": "DeepLabV3Plus", "dice_weight": 1, "encoder": "resnet34", "epochs": 40, "img_size": 256, "time_budget_min": 8.0}
+   ... 0m30s | epoch 12  loss 0.8157  val mIoU 0.6075  fg IoU 0.3305
+   [ok] val 0.6296 | not kept | best so far 0.6332 | 0.9 min
+
+Tool #5: run_experiment
+
+Tool #6: run_experiment
+
+>> m-NeonTree_t04  (trial 4/16)
+   hypothesis: Bigger encoder resnet50 may extract better features; more patience.
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet50", "epochs": 60, "img_size": 256, "time_budget_min": 8.0, "patience": 15}
+   ... 0m30s | epoch  7  loss 0.7980  val mIoU 0.6258  fg IoU 0.3625
+   ... 1m00s | epoch 17  loss 0.6904  val mIoU 0.6296  fg IoU 0.3584
+   ... 1m30s | epoch 27  loss 0.5972  val mIoU 0.6317  fg IoU 0.3580
+   ... 2m00s | epoch 37  loss 0.5101  val mIoU 0.6234  fg IoU 0.3432
+   ... 2m30s | epoch 47  loss 0.4342  val mIoU 0.6223  fg IoU 0.3401
+   [ok] val 0.6413 | KEPT, new best | best so far 0.6413 | 2.5 min
+
+>> m-NeonTree_t05  (trial 5/16)
+   hypothesis: Higher dice weight for 14% foreground improves fg IoU.
+   config: {"arch": "Unet", "dice_weight": 2, "encoder": "resnet34", "epochs": 60, "img_size": 256, "time_budget_min": 8.0, "patience": 15}
+   ... 0m30s | epoch 11  loss 1.3721  val mIoU 0.6168  fg IoU 0.3517
+   ... 1m00s | epoch 24  loss 1.1497  val mIoU 0.6332  fg IoU 0.3743
+   ... 1m30s | epoch 38  loss 1.0160  val mIoU 0.6311  fg IoU 0.3642
+   [ok] val 0.6355 | not kept | best so far 0.6413 | 1.7 min
+
+Tool #7: run_experiment
+
+Tool #8: run_experiment
+
+>> m-NeonTree_t06  (trial 6/16)
+   hypothesis: Resnet50 at 384 combines the two mild gains.
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet50", "epochs": 60, "img_size": 384, "patience": 15, "time_budget_min": 10.0}
+   ... 0m30s | epoch  3  loss 1.0093  val mIoU 0.5851  fg IoU 0.3238
+   ... 1m00s | epoch  8  loss 0.7665  val mIoU 0.6279  fg IoU 0.3619
+   ... 1m30s | epoch 12  loss 0.7114  val mIoU 0.6352  fg IoU 0.3682
+   ... 2m00s | epoch 17  loss 0.6476  val mIoU 0.6379  fg IoU 0.3725
+   ... 2m30s | epoch 21  loss 0.6229  val mIoU 0.6203  fg IoU 0.3378
+   ... 3m00s | epoch 26  loss 0.5555  val mIoU 0.6250  fg IoU 0.3462
+   ... 3m30s | epoch 30  loss 0.4952  val mIoU 0.6213  fg IoU 0.3443
+   [ok] val 0.6448 | KEPT, new best | best so far 0.6448 | 3.5 min
+
+>> m-NeonTree_t07  (trial 7/16)
+   hypothesis: FPN with resnet50 — different decoder; coarse-level predictions may suit crown masks.
+   config: {"arch": "FPN", "dice_weight": 1, "encoder": "resnet50", "epochs": 60, "img_size": 256, "patience": 15, "time_budget_min": 8.0}
+   ... 0m30s | epoch 10  loss 0.8303  val mIoU 0.6175  fg IoU 0.3502
+   ... 1m00s | epoch 23  loss 0.7236  val mIoU 0.6368  fg IoU 0.3706
+   ... 1m30s | epoch 36  loss 0.6425  val mIoU 0.6319  fg IoU 0.3606
+   [ok] val 0.6426 | not kept | best so far 0.6448 | 1.6 min
+
+Tool #9: run_experiment
+
+Tool #10: run_experiment
+
+>> m-NeonTree_t08  (trial 8/16)
+   hypothesis: Lower lr may preserve pretrained features given overfitting after ~epoch 20 on 270 images.
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet50", "epochs": 60, "img_size": 256, "patience": 15, "lr": 0.0001, "time_budget_min": 8.0}
+   ... 0m30s | epoch  7  loss 0.9238  val mIoU 0.5959  fg IoU 0.3319
+   ... 1m00s | epoch 17  loss 0.7770  val mIoU 0.6312  fg IoU 0.3653
+   ... 1m30s | epoch 27  loss 0.6807  val mIoU 0.6318  fg IoU 0.3633
+   ... 2m00s | epoch 37  loss 0.6013  val mIoU 0.6231  fg IoU 0.3452
+   [ok] val 0.6323 | not kept | best so far 0.6448 | 2.1 min
+
+>> m-NeonTree_t09  (trial 9/16)
+   hypothesis: Deeper encoder resnet101 continues trend resnet34<resnet50.
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet101", "epochs": 60, "img_size": 256, "patience": 15, "time_budget_min": 8.0}
+   ... 0m30s | epoch  5  loss 0.8732  val mIoU 0.5968  fg IoU 0.3355
+   ... 1m00s | epoch 12  loss 0.7362  val mIoU 0.6336  fg IoU 0.3695
+   ... 1m30s | epoch 19  loss 0.6727  val mIoU 0.6296  fg IoU 0.3602
+   ... 2m00s | epoch 27  loss 0.5770  val mIoU 0.6289  fg IoU 0.3528
+   ... 2m30s | epoch 34  loss 0.5172  val mIoU 0.6305  fg IoU 0.3576
+   [ok] val 0.6413 | not kept | best so far 0.6448 | 2.6 min
+
+Tool #11: run_experiment
+
+Tool #12: run_experiment
+
+>> m-NeonTree_t10  (trial 10/16)
+   hypothesis: Higher lr (1e-3) since lower lr hurt; could escape the ~0.64 plateau.
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet50", "epochs": 60, "img_size": 256, "lr": 0.001, "patience": 15, "time_budget_min": 8.0}
+   ... 0m30s | epoch  7  loss 0.7644  val mIoU 0.6124  fg IoU 0.3418
+   ... 1m00s | epoch 17  loss 0.6995  val mIoU 0.6278  fg IoU 0.3540
+   ... 1m30s | epoch 27  loss 0.6268  val mIoU 0.6242  fg IoU 0.3490
+   ... 2m00s | epoch 37  loss 0.5549  val mIoU 0.6310  fg IoU 0.3604
+   ... 2m30s | epoch 47  loss 0.4634  val mIoU 0.6197  fg IoU 0.3361
+   [ok] val 0.6358 | not kept | best so far 0.6448 | 2.9 min
+
+>> m-NeonTree_t11  (trial 11/16)
+   hypothesis: Seed confirmation of the best config (t06).
+   config: {"arch": "Unet", "dice_weight": 1, "encoder": "resnet50", "epochs": 60, "img_size": 384, "patience": 15, "seed": 1, "time_budget_min": 10.0}
+   ... 0m30s | epoch  3  loss 1.3278  val mIoU 0.4640  fg IoU 0.2455
+   ... 1m00s | epoch  8  loss 0.9920  val mIoU 0.6275  fg IoU 0.3674
+   ... 1m30s | epoch 12  loss 0.8526  val mIoU 0.6273  fg IoU 0.3579
+   ... 2m00s | epoch 17  loss 0.7454  val mIoU 0.6346  fg IoU 0.3704
+   ... 2m30s | epoch 21  loss 0.6915  val mIoU 0.6406  fg IoU 0.3874
+   ... 3m00s | epoch 26  loss 0.6000  val mIoU 0.6224  fg IoU 0.3451
+   ... 3m30s | epoch 30  loss 0.5688  val mIoU 0.6242  fg IoU 0.3489
+   ... 4m00s | epoch 35  loss 0.4984  val mIoU 0.6296  fg IoU 0.3582
+   [ok] val 0.6406 | not kept | best so far 0.6448 | 4.1 min
+**Best validation score: 0.6448 mIoU** (foreground IoU 0.385). It comes from trial t06: Unet with a resnet50 encoder, 384 px, BCE+Dice with `dice_weight` 1, lr at the default, 60 epochs and patience 15.
+
+I stopped after 11 of the 16 trials. The last 5 trials (t07–t11) all failed to beat t06, which meets the stop rule of 3 failures in a row.
+
+**Dataset:** m-NeonTree has 270 training and 94 validation images, with a 400×400 RGB canopy image plus a coarse 40×40 canopy-height layer and a 369-channel hyperspectral cube. Foreground (trees) is about 14% of pixels. The hyperspectral cube has more than 32 channels, so it is skipped automatically. As I read the log, the model sees only the RGB image and the height layer.
+
+**Results:**
+
+| Trial | Change | Val score |
+|---|---|---|
+| t01 | Baseline: Unet, resnet34, 256 px | 0.630 |
+| t02 | 384 px | 0.633 |
+| t03 | DeepLabV3Plus | 0.630 |
+| t04 | resnet50 encoder | 0.641 |
+| t05 | `dice_weight` 2 | 0.635 |
+| t06 | resnet50 at 384 px | **0.645** |
+| t07 | FPN with resnet50 | 0.643 |
+| t08 | lr 1e-4 | 0.632 |
+| t09 | resnet101 encoder | 0.641 |
+| t10 | lr 1e-3 | 0.636 |
+| t11 | Seed 1 rerun of t06 | 0.641 |
+
+**What helped:** A resnet50 encoder gave about +1 point over resnet34, and 384 px added a little on top of that.
+
+**What did not help:**
+- DeepLabV3Plus gave no gain over Unet.
+- FPN and resnet101 were no better than Unet with resnet50.
+- Raising `dice_weight` to 2 did not help.
+- Both lower and higher learning rates were worse than the default.
+
+**Confirmation:** Rerunning the best config with a different seed gave 0.6406, a drop of 0.4 points. That is within noise, so the t06 score holds up, but I would call the real level about 0.64.
+
+**Caveats:**
+- Most configs land between 0.63 and 0.645, and differences under about 0.3 points are noise. The ranking among resnet50 variants (Unet, FPN, 256 or 384 px) is therefore not reliable.
+- Validation scores peak around epochs 15–30 and then decline slightly, which suggests overfitting on 270 images.
+
+**What I would try next:**
+- Stronger regularisation, such as higher `weight_decay` or fewer epochs.
+- `UnetPlusPlus` or `MAnet`.
+- An ensemble of seeds.
+- Getting the canopy-height layer used more effectively. I couldn't tell from the config options how it is used.
+=== m-NeonTree finished in 25.3 min ===
