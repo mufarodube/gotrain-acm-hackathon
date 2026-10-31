@@ -1,0 +1,32 @@
+{
+  "m-eurosat": {
+    "trial_id": "m-eurosat_t09",
+    "val_score": 0.985,
+    "metric": "best_val_acc",
+    "config": {
+      "backbone": "convnext_tiny",
+      "epochs": 15,
+      "img_size": 160,
+      "lr": 0.0001,
+      "time_budget_min": 8.0,
+      "seed": 1
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-eurosat/m-eurosat_t09/model.pt",
+    "updated": "2026-10-31T12:46:36.323918+00:00"
+  },
+  "m-pv4ger-seg": {
+    "trial_id": "m-pv4ger-seg_t01",
+    "val_score": 0.9554219780964932,
+    "metric": "best_val_miou",
+    "config": {
+      "arch": "Unet",
+      "encoder": "resnet34",
+      "img_size": 320,
+      "dice_weight": 1.0,
+      "epochs": 15,
+      "time_budget_min": 10.0
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger-seg/m-pv4ger-seg_t01/model.pt",
+    "updated": "2026-10-31T13:12:47.170981+00:00"
+  }
+}

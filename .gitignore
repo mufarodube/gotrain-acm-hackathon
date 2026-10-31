@@ -1,0 +1,7 @@
+# trained weights and per-trial folders: too big for git
+runs/
+archive/*/runs/
+*.pt
+# local junk
+__pycache__/
+.trial.lock

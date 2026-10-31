@@ -1,0 +1,17 @@
+{
+  "m-eurosat": {
+    "trial_id": "m-eurosat_t08",
+    "val_score": 0.98,
+    "metric": "best_val_acc",
+    "config": {
+      "backbone": "convnext_tiny",
+      "epochs": 30,
+      "img_size": 128,
+      "lr": 0.0001,
+      "time_budget_min": 8.0,
+      "patience": 10
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-eurosat/m-eurosat_t08/model.pt",
+    "updated": "2026-10-31T11:42:17.038260+00:00"
+  }
+}
