@@ -45,6 +45,25 @@ def to_hw(arr, h, w, mode):
     return F.interpolate(t, size=(h, w), mode=mode, **kw).numpy()[0, 0]
 
 
+MAX_BAND_CHANNELS = 32  # skip hyperspectral cubes (e.g. m-NeonTree's 369-channel "Neon" band)
+
+
+def sample_channels(sample):
+    """Split a geobench sample into 2D channels. Bands may be (H, W) or (H, W, C).
+    Bands with more than MAX_BAND_CHANNELS channels are skipped: hundreds of inputs on a
+    few hundred images overfit, and they would multiply RAM use."""
+    chans, names = [], []
+    for b in sample.bands:
+        a = np.asarray(b.data, dtype=np.float32)
+        if a.ndim == 2:
+            chans.append(a); names.append(b.band_info.name)
+        elif a.ndim == 3 and a.shape[-1] <= MAX_BAND_CHANNELS:
+            for k in range(a.shape[-1]):
+                chans.append(a[..., k])
+                names.append(b.band_info.name if a.shape[-1] == 1 else f"{b.band_info.name}_{k}")
+    return chans, names
+
+
 def load_split(task, split, img_size, max_samples=None):
     """Load a split into memory, resized to img_size. Images float16 (N,C,H,W), masks uint8 (N,H,W)."""
     ds = task.get_dataset(split=split)
@@ -52,15 +71,19 @@ def load_split(task, split, img_size, max_samples=None):
     xs, ys = None, np.empty((n, img_size, img_size), dtype=np.uint8)
     for i in range(n):
         s = ds[i]
-        bands = [to_hw(np.asarray(b.data, dtype=np.float32), img_size, img_size, "bilinear")
-                 for b in s.bands]
+        chans, _ = sample_channels(s)
+        bands = [to_hw(c, img_size, img_size, "bilinear") for c in chans]
         mask = s.label.data if hasattr(s.label, "data") else s.label
         mask = to_hw(np.asarray(mask), img_size, img_size, "nearest")
         if xs is None:  # preallocate once: no list + np.stack double copy in RAM
             xs = np.empty((n, len(bands), img_size, img_size), dtype=np.float16)
         xs[i] = np.stack(bands)
         ys[i] = (mask > 0)  # binary: foreground vs background
-    band_names = [b.band_info.name for b in ds[0].bands]
+    band_names = sample_channels(ds[0])[1]
+    skipped = [b.band_info.name for b in ds[0].bands if np.asarray(b.data).ndim == 3
+               and np.asarray(b.data).shape[-1] > MAX_BAND_CHANNELS]
+    if skipped:
+        print(f"note: skipped high-dimensional bands {skipped} (> {MAX_BAND_CHANNELS} channels)")
     return xs, ys, band_names
 
 

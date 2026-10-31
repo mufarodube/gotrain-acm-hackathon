@@ -15,18 +15,49 @@
     "updated": "2026-10-31T12:46:36.323918+00:00"
   },
   "m-pv4ger-seg": {
-    "trial_id": "m-pv4ger-seg_t01",
-    "val_score": 0.9554219780964932,
+    "trial_id": "m-pv4ger-seg_t10",
+    "val_score": 0.9589848963783227,
     "metric": "best_val_miou",
     "config": {
       "arch": "Unet",
+      "dice_weight": 0.3,
       "encoder": "resnet34",
+      "epochs": 25,
       "img_size": 320,
-      "dice_weight": 1.0,
-      "epochs": 15,
+      "time_budget_min": 15.0
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger-seg/m-pv4ger-seg_t10/model.pt",
+    "updated": "2026-10-31T14:47:18.884913+00:00"
+  },
+  "m-nz-cattle": {
+    "trial_id": "m-nz-cattle_t06",
+    "val_score": 0.8516803882721826,
+    "metric": "best_val_miou",
+    "config": {
+      "arch": "Unet",
+      "dice_weight": 1,
+      "encoder": "resnet34",
+      "epochs": 30,
+      "img_size": 640,
+      "lr": 0.001,
       "time_budget_min": 10.0
     },
-    "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger-seg/m-pv4ger-seg_t01/model.pt",
-    "updated": "2026-10-31T13:12:47.170981+00:00"
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-nz-cattle/m-nz-cattle_t06/model.pt",
+    "updated": "2026-10-31T16:04:46.276168+00:00"
+  },
+  "m-pv4ger": {
+    "trial_id": "m-pv4ger_t04",
+    "val_score": 0.978978978978979,
+    "metric": "best_val_acc",
+    "config": {
+      "backbone": "convnext_tiny",
+      "epochs": 10,
+      "img_size": 224,
+      "lr": 0.0001,
+      "max_train": 2000,
+      "time_budget_min": 8.0
+    },
+    "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger/m-pv4ger_t04/model.pt",
+    "updated": "2026-10-31T16:43:31.899130+00:00"
   }
 }

@@ -91,7 +91,11 @@ def dataset_shape(task: str) -> tuple[int, int, int]:
     bench = "segmentation_v1.0" if task_kind(task) == "segmentation" else "classification_v1.0"
     t = next(x for x in geobench.task_iterator(benchmark_name=bench) if x.dataset_name == task)
     train, val = t.get_dataset(split="train"), t.get_dataset(split="valid")
-    return len(train), len(val), len(train[0].bands)
+    channels = 0  # same rule as the training scripts: (H,W) = 1, (H,W,C<=32) = C, bigger = skipped
+    for b in train[0].bands:
+        shape = np.asarray(b.data).shape
+        channels += 1 if len(shape) == 2 else (shape[-1] if shape[-1] <= 32 else 0)
+    return len(train), len(val), channels
 
 
 def memory_check(task: str, kind: str, config: dict) -> str | None:

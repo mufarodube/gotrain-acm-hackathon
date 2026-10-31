@@ -45,6 +45,16 @@ the highest possible VALIDATION score, reached through careful, well-explained e
   freezing the backbone. Do not spend many trials on them.
 - Differences under ~0.3 points are usually noise.
 
+## Valid options (others may fail to load)
+- Classification `backbone` (any timm name with pretrained weights): `resnet18`, `resnet34`,
+  `resnet50`, `convnext_tiny`, `convnext_small`, `efficientnet_b0`, `efficientnet_b2`.
+- Segmentation `arch`: `Unet`, `UnetPlusPlus`, `FPN`, `DeepLabV3Plus`, `MAnet`, `Linknet`.
+  `UnetPlusPlus` is the most memory- and time-hungry; prefer it at 256-384 px.
+- Segmentation `encoder` (ImageNet weights): `resnet18`, `resnet34`, `resnet50`, `resnet101`,
+  `resnext50_32x4d`.
+- Bands with more than 32 channels (hyperspectral cubes) are skipped automatically; the
+  model sees the remaining channels (the training log notes what was skipped).
+
 ## Already built into every trial (do not propose these as new ideas)
 - Augmentation: random horizontal/vertical flips and 90-degree rotations (GEO-Bench protocol).
 - Learning-rate schedule: 5% warmup then cosine decay, timed to end exactly when the
