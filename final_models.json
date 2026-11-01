@@ -1,0 +1,356 @@
+{
+  "m-eurosat": {
+    "members": [
+      {
+        "trial_id": "m-eurosat_t09",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-eurosat/m-eurosat_t09/model.pt",
+        "img_size": 160,
+        "val_score_single": 0.985
+      }
+    ],
+    "tta": false,
+    "metric": "accuracy",
+    "val_final": 0.985,
+    "val_single_best": 0.985,
+    "all_options": [
+      {
+        "n_models": 1,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.985
+      },
+      {
+        "n_models": 1,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.983
+      },
+      {
+        "n_models": 2,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.984
+      },
+      {
+        "n_models": 2,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.984
+      },
+      {
+        "n_models": 3,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.984
+      },
+      {
+        "n_models": 3,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.984
+      }
+    ]
+  },
+  "m-pv4ger-seg": {
+    "members": [
+      {
+        "trial_id": "m-pv4ger-seg_t10",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger-seg/m-pv4ger-seg_t10/model.pt",
+        "img_size": 320,
+        "val_score_single": 0.95898
+      }
+    ],
+    "tta": false,
+    "metric": "mIoU",
+    "val_final": 0.9589848963783227,
+    "val_single_best": 0.9589848963783227,
+    "all_options": [
+      {
+        "n_models": 1,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.9589848963783227,
+        "iou_fg": 0.9346949769904253
+      },
+      {
+        "n_models": 1,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.9607175253386828,
+        "iou_fg": 0.9374517477820262
+      },
+      {
+        "n_models": 2,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.9598281391064705,
+        "iou_fg": 0.9360292986333337
+      },
+      {
+        "n_models": 2,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.960779476714709,
+        "iou_fg": 0.9375461020280432
+      },
+      {
+        "n_models": 3,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.9595654817288246,
+        "iou_fg": 0.9356139318589403
+      },
+      {
+        "n_models": 3,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.960858026429563,
+        "iou_fg": 0.9376701179594086
+      }
+    ]
+  },
+  "m-nz-cattle": {
+    "members": [
+      {
+        "trial_id": "m-nz-cattle_t06",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-nz-cattle/m-nz-cattle_t06/model.pt",
+        "img_size": 640,
+        "val_score_single": 0.85168
+      }
+    ],
+    "tta": false,
+    "metric": "mIoU",
+    "val_final": 0.8516803882721826,
+    "val_single_best": 0.8516803882721826,
+    "all_options": [
+      {
+        "n_models": 1,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.8516803882721826,
+        "iou_fg": 0.711365194398198
+      },
+      {
+        "n_models": 1,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.8517133117419985,
+        "iou_fg": 0.711430553100053
+      },
+      {
+        "n_models": 2,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.8519534364843031,
+        "iou_fg": 0.7119002396933882
+      },
+      {
+        "n_models": 2,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.8517441298248654,
+        "iou_fg": 0.7114903119725713
+      },
+      {
+        "n_models": 3,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.8524607971419162,
+        "iou_fg": 0.7128867156905404
+      },
+      {
+        "n_models": 3,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.8511730991444565,
+        "iou_fg": 0.7103837094404402
+      }
+    ]
+  },
+  "m-pv4ger": {
+    "members": [
+      {
+        "trial_id": "m-pv4ger_t04",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-pv4ger/m-pv4ger_t04/model.pt",
+        "img_size": 224,
+        "val_score_single": 0.97898
+      }
+    ],
+    "tta": false,
+    "metric": "accuracy",
+    "val_final": 0.978978978978979,
+    "val_single_best": 0.978978978978979,
+    "all_options": [
+      {
+        "n_models": 1,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.978978978978979
+      },
+      {
+        "n_models": 1,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.974974974974975
+      },
+      {
+        "n_models": 2,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.97997997997998
+      },
+      {
+        "n_models": 2,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.97997997997998
+      },
+      {
+        "n_models": 3,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.975975975975976
+      },
+      {
+        "n_models": 3,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.973973973973974
+      }
+    ]
+  },
+  "m-so2sat": {
+    "members": [
+      {
+        "trial_id": "m-so2sat_t04",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-so2sat/m-so2sat_t04/model.pt",
+        "img_size": 64,
+        "val_score_single": 0.59331
+      },
+      {
+        "trial_id": "m-so2sat_t03",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-so2sat/m-so2sat_t03/model.pt",
+        "img_size": 64,
+        "val_score_single": 0.58824
+      },
+      {
+        "trial_id": "m-so2sat_t06",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-so2sat/m-so2sat_t06/model.pt",
+        "img_size": 96,
+        "val_score_single": 0.58722
+      }
+    ],
+    "tta": true,
+    "metric": "accuracy",
+    "val_final": 0.6156186612576064,
+    "val_single_best": 0.5933062880324543,
+    "all_options": [
+      {
+        "n_models": 1,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.5933062880324543
+      },
+      {
+        "n_models": 1,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.5882352941176471
+      },
+      {
+        "n_models": 2,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.6115618661257607
+      },
+      {
+        "n_models": 2,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.6075050709939148
+      },
+      {
+        "n_models": 3,
+        "tta": false,
+        "metric": "accuracy",
+        "score": 0.6105476673427992
+      },
+      {
+        "n_models": 3,
+        "tta": true,
+        "metric": "accuracy",
+        "score": 0.6156186612576064
+      }
+    ]
+  },
+  "m-NeonTree": {
+    "members": [
+      {
+        "trial_id": "m-NeonTree_t06",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-NeonTree/m-NeonTree_t06/model.pt",
+        "img_size": 384,
+        "val_score_single": 0.64483
+      },
+      {
+        "trial_id": "m-NeonTree_t07",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-NeonTree/m-NeonTree_t07/model.pt",
+        "img_size": 256,
+        "val_score_single": 0.64258
+      },
+      {
+        "trial_id": "m-NeonTree_t04",
+        "model_path": "/home/sagemaker-user/gotrain/runs/m-NeonTree/m-NeonTree_t04/model.pt",
+        "img_size": 256,
+        "val_score_single": 0.64127
+      }
+    ],
+    "tta": true,
+    "metric": "mIoU",
+    "val_final": 0.6561824965163799,
+    "val_single_best": 0.6448312767025625,
+    "all_options": [
+      {
+        "n_models": 1,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.6448312767025625,
+        "iou_fg": 0.3846726521948752
+      },
+      {
+        "n_models": 1,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.6484440470730928,
+        "iou_fg": 0.388044316362472
+      },
+      {
+        "n_models": 2,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.6508334739247975,
+        "iou_fg": 0.39286533556116754
+      },
+      {
+        "n_models": 2,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.6529553113650728,
+        "iou_fg": 0.39520205546401543
+      },
+      {
+        "n_models": 3,
+        "tta": false,
+        "metric": "mIoU",
+        "score": 0.6534182391594585,
+        "iou_fg": 0.3974490317312713
+      },
+      {
+        "n_models": 3,
+        "tta": true,
+        "metric": "mIoU",
+        "score": 0.6561824965163799,
+        "iou_fg": 0.4010461431408349
+      }
+    ]
+  }
+}

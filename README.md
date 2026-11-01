@@ -12,16 +12,35 @@ The agent runs a ReAct loop with **Claude Sonnet on Amazon Bedrock** through the
 
 ## Results
 
-| Task | Type | Metric | Hand-written baseline (val) | GoTrain best (val) | Test (once) |
-|---|---|---|---|---|---|
-| m-eurosat | Classification, 13 bands | Accuracy | 0.948 | 0.985 | _pending_ |
-| m-pv4ger | Classification, RGB | Accuracy | – | _running_ | _pending_ |
-| m-pv4ger-seg | Segmentation, RGB | mIoU | 0.954 | _running_ | _pending_ |
-| m-nz-cattle | Segmentation, RGB | mIoU | – | _running_ | _pending_ |
+Six GEO-Bench tasks, no human tuning. The last two (m-so2sat, m-NeonTree) were datasets
+the agent had never seen, run with zero code changes.
 
-On m-eurosat the agent also ran the winning configuration with three seeds
-(0.981 / 0.985 / 0.976) and concluded in its own report that the realistic level is
-about 0.98 and the 0.985 is partly seed luck.
+| Task | Data | Metric | Hand-written baseline (val) | GoTrain final (val) | **Test (scored once)** | Final model |
+|---|---|---|---|---|---|---|
+| m-eurosat | Sentinel-2, 13 bands, 10 classes | Accuracy | 0.948 | 0.985 | **0.973** | convnext_tiny |
+| m-pv4ger | Aerial RGB, solar panels yes/no | Accuracy | – | 0.979 | **0.981** | convnext_tiny |
+| m-pv4ger-seg | Aerial RGB, solar panel masks | mIoU | 0.954 | 0.959 | **0.952** (panel IoU 0.921) | Unet + resnet34 |
+| m-nz-cattle | Aerial RGB, cattle masks (2% of pixels) | mIoU | – | 0.852 | **0.847** (cattle IoU 0.703) | Unet + resnet34 |
+| m-so2sat | Sentinel-1 radar + Sentinel-2, 18 bands, 17 classes | Accuracy | – | 0.616 | **0.582** | 3 × convnext_tiny + TTA |
+| m-NeonTree | RGB + canopy height (+ hyperspectral, skipped) | mIoU | – | 0.656 | **0.659** (tree IoU 0.404) | 3 × Unet/FPN + TTA |
+
+For rough context, published GEO-Bench results for a DINO-pretrained ResNet-50 average
+about 0.968 on m-eurosat, 0.975 on m-pv4ger and 0.544 on m-so2sat (mean of 10 seeds,
+different protocol, so not a like-for-like comparison).
+
+**Reading the gaps.** Four of six test scores land within 0.7 points of validation, so the
+agent's choices generalise. On m-eurosat the agent ran its best configuration with three
+seeds (0.981 / 0.985 / 0.976) and wrote that the 0.985 was "partly seed luck" and the
+realistic level about 0.98; the test score of 0.973 bears that out. m-so2sat has the largest
+gap (−3.4 points): the agent diagnosed a domain shift between the cities in the splits, and
+choosing among ensemble options on a noisy validation set adds some optimism.
+
+**Final model selection (validation only).** After the agent finished, `finalize.py` tried
+1–3 of each task's top models, with and without test-time augmentation (averaging over the 8
+rotations and flips), and adopted a more complex option only if it beat the simpler one by
+0.2 points on validation. Ensembling won only on the two hard, noisy tasks (m-so2sat +2.2,
+m-NeonTree +1.1 on validation) and changed nothing on the four near-saturated ones. Both of
+those agent reports had recommended ensembling as the next step.
 
 ## How it works
 
@@ -36,6 +55,8 @@ about 0.98 and the 0.985 is partly seed luck.
                  (train split → validation split, time-budgeted)
                             │
         experiments.csv (audit log) · registry.json (best model per task)
+                            │
+          finalize.py (ensemble / TTA choice, validation only)
                             │
           final_test.py (run by a human, once per task, locked)
 ```
@@ -65,8 +86,14 @@ about 0.98 and the 0.985 is partly seed luck.
   (the agent sometimes calls tools in parallel), RAM use is estimated before launch and
   oversized configs are refused, out-of-memory kills are reported in plain language, and
   diverging losses fail loudly.
-- **Test split touched once.** Only `final_test.py` reads it. It evaluates the model in the
-  registry and refuses to run twice on the same task.
+- **Test split touched once.** Only `final_test.py` reads it. It evaluates the model chosen on
+  validation and refuses to run twice on the same task. Validation and test predictions go
+  through the same code (`predict.py`); a single model without TTA reproduces its training
+  validation score exactly.
+- **Works on unfamiliar data.** Bands can be 2D images or multi-channel stacks at different
+  resolutions; everything is resized to one grid. Cubes with more than 32 channels (such as
+  m-NeonTree's 369-channel hyperspectral band) are skipped, because hundreds of inputs on a
+  few hundred images overfit and would multiply memory use. The skip is written to the log.
 
 ## Lessons from building it
 The first agent run surfaced three real infrastructure bugs, and the agent worked around
@@ -94,6 +121,9 @@ python run_agent.py m-eurosat
 # several tasks, detached (survives a closed browser)
 nohup python -u run_agent.py m-pv4ger-seg m-nz-cattle m-pv4ger > logs/run_all.log 2>&1 &
 
+# choose each task's final model (ensemble / TTA) on validation only
+python finalize.py
+
 # at the very end, once per task
 python final_test.py m-eurosat
 ```
@@ -109,7 +139,10 @@ Requires access to `eu.anthropic.claude-sonnet-5-5` on Bedrock (`eu-central-1`).
 | `gotrain_tools.py` | The agent's tools, guardrails, experiment log and model registry |
 | `baseline_classification.py` | Training engine for classification (timm backbones) |
 | `baseline_segmentation.py` | Training engine for segmentation (segmentation-models-pytorch) |
+| `predict.py` | Shared prediction code (ensembles, test-time augmentation) for validation and test |
+| `finalize.py` | Chooses each task's final model on validation; writes `final_models.json` |
 | `final_test.py` | The only code that touches the test split; one evaluation per task |
+| `test_results.json` | Test scores, with the members, TTA setting and timestamp of each evaluation |
 | `download_data.py` | Downloads only the chosen GEO-Bench tasks from Hugging Face |
 | `experiments.csv` | One row per trial: hypothesis, config, validation score, kept or not |
 | `registry.json` | The best model per task, with its config |
@@ -120,7 +153,9 @@ Requires access to `eu.anthropic.claude-sonnet-5-5` on Bedrock (`eu-central-1`).
 - Expose GoTrain as an MCP server so GoPilot can call `train(dataset)` directly.
 - Let the agent edit training code as a second search level once the config search
   plateaus.
-- Ensemble the best seeds for the final model.
+- Let the agent choose band subsets (e.g. optical-only on m-so2sat, which it suggested) and
+  use hyperspectral data through a dimensionality-reduction step.
+- Evaluate segmentation masks at native resolution (currently scored at the model's input size).
 - Tree search over configurations (AIDE-style) instead of one trial at a time.
 
 ## References

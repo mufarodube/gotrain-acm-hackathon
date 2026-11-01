@@ -5,3 +5,4 @@ archive/*/runs/
 # local junk
 __pycache__/
 .trial.lock
+.ipynb_checkpoints/

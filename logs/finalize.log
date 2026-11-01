@@ -1,0 +1,51 @@
+nohup: ignoring input
+=== m-eurosat ===
+   1 model(s), TTA off: val 0.9850
+   1 model(s), TTA on : val 0.9830
+   2 model(s), TTA off: val 0.9840
+   2 model(s), TTA on : val 0.9840
+   3 model(s), TTA off: val 0.9840
+   3 model(s), TTA on : val 0.9840
+   -> chosen: 1 model(s), TTA off, val 0.9850 (single best was 0.9850)
+=== m-pv4ger-seg ===
+   1 model(s), TTA off: val 0.9590  fg IoU 0.9347
+   1 model(s), TTA on : val 0.9607  fg IoU 0.9375
+   2 model(s), TTA off: val 0.9598  fg IoU 0.9360
+   2 model(s), TTA on : val 0.9608  fg IoU 0.9375
+   3 model(s), TTA off: val 0.9596  fg IoU 0.9356
+   3 model(s), TTA on : val 0.9609  fg IoU 0.9377
+   -> chosen: 1 model(s), TTA off, val 0.9590 (single best was 0.9590)
+=== m-nz-cattle ===
+   1 model(s), TTA off: val 0.8517  fg IoU 0.7114
+   1 model(s), TTA on : val 0.8517  fg IoU 0.7114
+   2 model(s), TTA off: val 0.8520  fg IoU 0.7119
+   2 model(s), TTA on : val 0.8517  fg IoU 0.7115
+   3 model(s), TTA off: val 0.8525  fg IoU 0.7129
+   3 model(s), TTA on : val 0.8512  fg IoU 0.7104
+   -> chosen: 1 model(s), TTA off, val 0.8517 (single best was 0.8517)
+=== m-pv4ger ===
+   1 model(s), TTA off: val 0.9790
+   1 model(s), TTA on : val 0.9750
+   2 model(s), TTA off: val 0.9800
+   2 model(s), TTA on : val 0.9800
+   3 model(s), TTA off: val 0.9760
+   3 model(s), TTA on : val 0.9740
+   -> chosen: 1 model(s), TTA off, val 0.9790 (single best was 0.9790)
+=== m-so2sat ===
+   1 model(s), TTA off: val 0.5933
+   1 model(s), TTA on : val 0.5882
+   2 model(s), TTA off: val 0.6116
+   2 model(s), TTA on : val 0.6075
+   3 model(s), TTA off: val 0.6105
+   3 model(s), TTA on : val 0.6156
+   -> chosen: 3 model(s), TTA on, val 0.6156 (single best was 0.5933)
+=== m-NeonTree ===
+   1 model(s), TTA off: val 0.6448  fg IoU 0.3847
+   1 model(s), TTA on : val 0.6484  fg IoU 0.3880
+   2 model(s), TTA off: val 0.6508  fg IoU 0.3929
+   2 model(s), TTA on : val 0.6530  fg IoU 0.3952
+   3 model(s), TTA off: val 0.6534  fg IoU 0.3974
+   3 model(s), TTA on : val 0.6562  fg IoU 0.4010
+   -> chosen: 3 model(s), TTA on, val 0.6562 (single best was 0.6448)
+
+Saved choices to final_models.json. Nothing was evaluated on test.
